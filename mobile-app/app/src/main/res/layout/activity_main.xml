@@ -3,57 +3,74 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="16dp">
+    android:padding="16dp"
+    android:gravity="center_horizontal">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Sentinel Device Trust Scanner"
-        android:textSize="24sp"
+        android:text="Sentinel"
+        android:textSize="32sp"
         android:textStyle="bold"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginBottom="24dp"/>
+        android:textColor="#2196F3"
+        android:layout_marginTop="40dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Device Trust Scanner"
+        android:textSize="16sp"
+        android:layout_marginBottom="40dp"/>
 
     <Button
         android:id="@+id/scanButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Scan Device"
-        android:layout_marginBottom="16dp"/>
+        android:layout_width="200dp"
+        android:layout_height="60dp"
+        android:text="SCAN DEVICE"
+        android:textSize="18sp"
+        android:backgroundTint="#2196F3"
+        android:layout_marginBottom="30dp"/>
 
     <ProgressBar
         android:id="@+id/progressBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:visibility="gone"/>
+        android:visibility="gone"
+        android:layout_marginBottom="20dp"/>
 
     <TextView
-        android:id="@+id/resultText"
-        android:layout_width="match_parent"
+        android:id="@+id/statusText"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Tap Scan to analyze device trust"
-        android:textSize="16sp"
-        android:layout_marginTop="16dp"/>
+        android:text="Tap SCAN to analyze"
+        android:textSize="14sp"
+        android:layout_marginBottom="20dp"/>
 
     <TextView
         android:id="@+id/trustScoreText"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text=""
-        android:textSize="48sp"
+        android:textSize="72sp"
         android:textStyle="bold"
-        android:textColor="#4CAF50"
-        android:gravity="center"
-        android:layout_marginTop="24dp"/>
+        android:textColor="#4CAF50"/>
 
     <TextView
         android:id="@+id/riskLevelText"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text=""
-        android:textSize="20sp"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:layout_marginTop="10dp"/>
+
+    <TextView
+        android:id="@+id/recommendationText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:textSize="14sp"
         android:gravity="center"
-        android:layout_marginTop="8dp"/>
+        android:padding="20dp"/>
 
 </LinearLayout>

@@ -22,9 +22,10 @@ public class MainActivity extends Activity {
     
     private Button scanButton;
     private ProgressBar progressBar;
-    private TextView resultText;
+    private TextView statusText;
     private TextView trustScoreText;
     private TextView riskLevelText;
+    private TextView recommendationText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,9 +34,10 @@ public class MainActivity extends Activity {
         
         scanButton = findViewById(R.id.scanButton);
         progressBar = findViewById(R.id.progressBar);
-        resultText = findViewById(R.id.resultText);
+        statusText = findViewById(R.id.statusText);
         trustScoreText = findViewById(R.id.trustScoreText);
         riskLevelText = findViewById(R.id.riskLevelText);
+        recommendationText = findViewById(R.id.recommendationText);
         
         scanButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -48,9 +50,10 @@ public class MainActivity extends Activity {
     private void scanDevice() {
         scanButton.setEnabled(false);
         progressBar.setVisibility(View.VISIBLE);
-        resultText.setText("Collecting device data...");
+        statusText.setText("Collecting device data...");
         trustScoreText.setText("");
         riskLevelText.setText("");
+        recommendationText.setText("");
         
         new Thread(new Runnable() {
             @Override
@@ -61,7 +64,7 @@ public class MainActivity extends Activity {
                     telemetry.put("model", Build.MODEL);
                     telemetry.put("android_version", Build.VERSION.RELEASE);
                     telemetry.put("fingerprint", Build.FINGERPRINT);
-                    telemetry.put("bootloader_status", Build.BOOTLOADER.contains("unlocked") ? "UNLOCKED" : "LOCKED");
+                    telemetry.put("bootloader_status", Build.BOOTLOADER.toLowerCase().contains("unlocked") ? "UNLOCKED" : "LOCKED");
                     telemetry.put("safety_net_result", "UNKNOWN");
                     telemetry.put("installed_apps_count", getPackageManager().getInstalledApplications(0).size());
                     telemetry.put("timestamp", new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.US).format(new Date()));
@@ -71,8 +74,8 @@ public class MainActivity extends Activity {
                     conn.setRequestMethod("POST");
                     conn.setRequestProperty("Content-Type", "application/json");
                     conn.setDoOutput(true);
-                    conn.setConnectTimeout(10000);
-                    conn.setReadTimeout(10000);
+                    conn.setConnectTimeout(15000);
+                    conn.setReadTimeout(15000);
                     
                     OutputStream os = conn.getOutputStream();
                     os.write(telemetry.toString().getBytes("UTF-8"));
@@ -99,14 +102,18 @@ public class MainActivity extends Activity {
                                 
                                 trustScoreText.setText(String.valueOf(trustScore));
                                 riskLevelText.setText(riskLevel);
-                                resultText.setText(recommendation);
+                                recommendationText.setText(recommendation);
+                                statusText.setText("Scan complete");
                                 
                                 if (trustScore >= 80) {
                                     trustScoreText.setTextColor(0xFF4CAF50);
+                                    riskLevelText.setTextColor(0xFF4CAF50);
                                 } else if (trustScore >= 50) {
                                     trustScoreText.setTextColor(0xFFFF9800);
+                                    riskLevelText.setTextColor(0xFFFF9800);
                                 } else {
                                     trustScoreText.setTextColor(0xFFF44336);
+                                    riskLevelText.setTextColor(0xFFF44336);
                                 }
                             }
                         });
@@ -115,7 +122,7 @@ public class MainActivity extends Activity {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                resultText.setText(error);
+                                statusText.setText(error);
                             }
                         });
                     }
@@ -125,7 +132,7 @@ public class MainActivity extends Activity {
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            resultText.setText(error);
+                            statusText.setText(error);
                         }
                     });
                 } finally {
